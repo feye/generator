@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2016 the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import org.mybatis.generator.api.dom.OutputUtilities;
  * @author Jeff Butler
  */
 public abstract class JavaElement {
-    
+
     /** The java doc lines. */
     private List<String> javaDocLines;
 
@@ -50,7 +50,7 @@ public abstract class JavaElement {
         javaDocLines = new ArrayList<String>();
         annotations = new ArrayList<String>();
     }
-    
+
     /**
      * Copy Constructor.
      *
@@ -61,7 +61,7 @@ public abstract class JavaElement {
         this();
         this.annotations.addAll(original.annotations);
         this.isFinal = original.isFinal;
-        this.isStatic = original.isFinal;
+        this.isStatic = original.isStatic;
         this.javaDocLines.addAll(original.javaDocLines);
         this.visibility = original.visibility;
     }

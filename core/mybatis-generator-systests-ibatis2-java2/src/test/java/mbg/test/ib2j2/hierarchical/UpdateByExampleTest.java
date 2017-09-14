@@ -21,11 +21,11 @@ import java.util.List;
 import mbg.test.common.util.TestUtilities;
 import mbg.test.ib2j2.generated.hierarchical.dao.AwfulTableDAO;
 import mbg.test.ib2j2.generated.hierarchical.dao.FieldsblobsDAO;
+import mbg.test.ib2j2.generated.hierarchical.dao.FieldsonlyDAO;
 import mbg.test.ib2j2.generated.hierarchical.dao.PkblobsDAO;
 import mbg.test.ib2j2.generated.hierarchical.dao.PkfieldsDAO;
 import mbg.test.ib2j2.generated.hierarchical.dao.PkfieldsblobsDAO;
 import mbg.test.ib2j2.generated.hierarchical.dao.PkonlyDAO;
-import mbg.test.ib2j2.generated.hierarchical.dao.subpackage.FieldsonlyDAO;
 import mbg.test.ib2j2.generated.hierarchical.model.AwfulTable;
 import mbg.test.ib2j2.generated.hierarchical.model.AwfulTableExample;
 import mbg.test.ib2j2.generated.hierarchical.model.Fieldsblobs;
@@ -186,16 +186,16 @@ public class UpdateByExampleTest extends AbstractHierarchicalJava2Test {
                 .andIdEqualTo(new Integer(5))
                 .andSeqNumEqualTo(new Integer(3));
             
-            rows = dao.countByExample(example);
-            assertEquals(1, rows);
+            long returnedRows = dao.countByExample(example);
+            assertEquals(1, returnedRows);
             
             example.clear();
             example.createCriteria()
                 .andIdEqualTo(new Integer(7))
                 .andSeqNumEqualTo(new Integer(3));
             
-            rows = dao.countByExample(example);
-            assertEquals(1, rows);
+            returnedRows = dao.countByExample(example);
+            assertEquals(1, returnedRows);
         } catch (SQLException e) {
             fail(e.getMessage());
         }
@@ -234,8 +234,8 @@ public class UpdateByExampleTest extends AbstractHierarchicalJava2Test {
                 .andIdEqualTo(new Integer(22))
                 .andSeqNumEqualTo(new Integer(3));
             
-            rows = dao.countByExample(example);
-            assertEquals(1, rows);
+            long returnedRows = dao.countByExample(example);
+            assertEquals(1, returnedRows);
         } catch (SQLException e) {
             fail(e.getMessage());
         }
@@ -274,8 +274,8 @@ public class UpdateByExampleTest extends AbstractHierarchicalJava2Test {
                 .andId1EqualTo(new Integer(3))
                 .andId2EqualTo(new Integer(4));
     
-            rows = dao.countByExample(example);
-            assertEquals(1, rows);
+            long returnedRows = dao.countByExample(example);
+            assertEquals(1, returnedRows);
         } catch (SQLException e) {
             fail(e.getMessage());
         }
@@ -319,8 +319,8 @@ public class UpdateByExampleTest extends AbstractHierarchicalJava2Test {
                 .andId1EqualTo(new Integer(3))
                 .andId2EqualTo(new Integer(4));
     
-            rows = dao.countByExample(example);
-            assertEquals(1, rows);
+            long returnedRows = dao.countByExample(example);
+            assertEquals(1, returnedRows);
         } catch (SQLException e) {
             fail(e.getMessage());
         }

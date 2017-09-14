@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2016 the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.internal.ObjectFactory;
 
 /**
- * 
+ * Holds information about a class (uses the JavaBeans Introspector to find properties).
  * @author Jeff Butler
  * 
  */
@@ -54,6 +54,17 @@ public class RootClassInfo {
         return classInfo;
     }
 
+    /**
+     * Clears the internal map containing root class info.  This method should be called at the beginning of
+     * a generation run to clear the cached root class info in case there has been a change.
+     * For example, when using the eclipse launcher, the cache would be kept until eclipse
+     * was restarted.
+     * 
+     */
+    public static void reset() {
+        rootClassInfoMap.clear();
+    }
+
     private PropertyDescriptor[] propertyDescriptors;
     private String className;
     private List<String> warnings;
@@ -67,7 +78,7 @@ public class RootClassInfo {
         if (className == null) {
             return;
         }
-        
+
         FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType(className);
         String nameWithoutGenerics = fqjt.getFullyQualifiedNameWithoutTypeParameters();
         if (!nameWithoutGenerics.equals(className)) {

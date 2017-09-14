@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2016 the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
+import org.mybatis.generator.codegen.mybatis3.ListUtilities;
 import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
 import org.mybatis.generator.config.GeneratedKey;
 
@@ -83,30 +84,25 @@ public class InsertElementGenerator extends AbstractXmlElementGenerator {
         }
 
         StringBuilder insertClause = new StringBuilder();
-        StringBuilder valuesClause = new StringBuilder();
 
         insertClause.append("insert into "); //$NON-NLS-1$
         insertClause.append(introspectedTable
                 .getFullyQualifiedTableNameAtRuntime());
         insertClause.append(" ("); //$NON-NLS-1$
 
+        StringBuilder valuesClause = new StringBuilder();
         valuesClause.append("values ("); //$NON-NLS-1$
 
         List<String> valuesClauses = new ArrayList<String>();
-        List<IntrospectedColumn> columns = introspectedTable.getAllColumns();
+        List<IntrospectedColumn> columns = ListUtilities.removeIdentityAndGeneratedAlwaysColumns(introspectedTable.getAllColumns());
         for (int i = 0; i < columns.size(); i++) {
             IntrospectedColumn introspectedColumn = columns.get(i);
-            if (introspectedColumn.isIdentity()) {
-                // cannot set values on identity fields
-                continue;
-            }
 
             insertClause.append(MyBatis3FormattingUtilities
                     .getEscapedColumnName(introspectedColumn));
             valuesClause.append(MyBatis3FormattingUtilities
                     .getParameterClause(introspectedColumn));
-            if (i + 1 < columns.size() &&
-                    !columns.get(i + 1).isIdentity()) {
+            if (i + 1 < columns.size()) {
                 insertClause.append(", "); //$NON-NLS-1$
                 valuesClause.append(", "); //$NON-NLS-1$
             }

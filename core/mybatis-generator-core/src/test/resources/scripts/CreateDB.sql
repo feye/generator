@@ -1,5 +1,5 @@
 --
---    Copyright 2006-2016 the original author or authors.
+--    Copyright 2006-2017 the original author or authors.
 --
 --    Licensed under the Apache License, Version 2.0 (the "License");
 --    you may not use this file except in compliance with the License.
@@ -28,7 +28,11 @@ drop table mbgtest.AnotherAwfulTable if exists;
 drop table CompoundKey if exists;
 drop schema mbgtest if exists;
 drop table EnumTest if exists;
+drop table GeneratedAlwaysTest if exists;
+drop table GeneratedAlwaysTestNoUpdates if exists;
+drop table IgnoreManyColumns if exists;
 drop sequence TestSequence if exists;
+drop table suffix_rename if exists;
 
 create sequence TestSequence as integer start with 1;
 
@@ -149,5 +153,49 @@ create table EnumTest (
   primary key(id)
 );
 
+create table GeneratedAlwaysTest (
+  id int not null,
+  name varchar(20) not null,
+  id_plus1 int generated always as (id + 1),
+  id_plus2 int generated always as (id + 2),
+  blob1 longvarbinary,
+  primary key(id)
+);
+
+-- this table should not have any update by primary key statements generated
+create table GeneratedAlwaysTestNoUpdates (
+  id int not null,
+  id_plus1 int generated always as (id + 1),
+  id_plus2 int generated always as (id + 2),
+  primary key(id)
+);
+
+create table IgnoreManyColumns (
+  col01 int not null,
+  col02 int null,
+  col03 int null,
+  col04 int null,
+  col05 int null,
+  col06 int null,
+  col07 int null,
+  col08 int null,
+  col09 int null,
+  col10 int null,
+  col11 int null,
+  col12 int null,
+  col13 int null,
+  col14 int null,
+  col15 int null,
+  primary key(col01)
+);
+
 comment on table EnumTest is 'This is a comment for the EnumTest table';
 comment on column EnumTest.name is 'This is a comment for the EnumTest.name column';
+
+create table suffix_rename (
+  ID integer not null,
+  NAME varchar(30),
+  ADDRESS varchar(30),
+  ZIP_CODE char(5),
+  primary key(ID)
+);

@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2016 the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -32,13 +32,13 @@ import org.mybatis.generator.api.dom.xml.XmlElement;
 public class IgnoredColumn {
 
     /** The column name. */
-    private String columnName;
+    protected String columnName;
 
     /** The is column name delimited. */
     private boolean isColumnNameDelimited;
 
     /** The configured delimited column name. */
-    private String configuredDelimitedColumnName;
+    protected String configuredDelimitedColumnName;
 
     /**
      * Instantiates a new ignored column.
@@ -84,6 +84,7 @@ public class IgnoredColumn {
     /* (non-Javadoc)
      * @see java.lang.Object#equals(java.lang.Object)
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj == null || !(obj instanceof IgnoredColumn)) {
             return false;
@@ -95,6 +96,7 @@ public class IgnoredColumn {
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */
+    @Override
     public int hashCode() {
         return columnName.hashCode();
     }
@@ -128,6 +130,14 @@ public class IgnoredColumn {
         if (!stringHasValue(columnName)) {
             errors.add(getString("ValidationError.21", //$NON-NLS-1$
                     tableName));
+        }
+    }
+
+    public boolean matches(String columnName) {
+        if (isColumnNameDelimited) {
+            return this.columnName.equals(columnName);
+        } else {
+            return this.columnName.equalsIgnoreCase(columnName);
         }
     }
 }

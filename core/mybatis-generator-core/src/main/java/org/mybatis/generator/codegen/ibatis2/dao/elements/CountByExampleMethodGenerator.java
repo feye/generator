@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2016 the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import org.mybatis.generator.api.dom.java.Parameter;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
 
 /**
+ * Generates the Count By Example method.
  * 
  * @author Jeff Butler
  * 
@@ -43,11 +44,14 @@ public class CountByExampleMethodGenerator extends AbstractDAOElementGenerator {
     public void addImplementationElements(TopLevelClass topLevelClass) {
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
         Method method = getMethodShell(importedTypes);
+        if (generateForJava5) {
+            method.addAnnotation("@Override"); //$NON-NLS-1$
+        }
 
         // generate the implementation method
         StringBuilder sb = new StringBuilder();
 
-        sb.append("Integer count = (Integer)  "); //$NON-NLS-1$
+        sb.append("Long count = (Long)  "); //$NON-NLS-1$
         sb.append(daoTemplate.getQueryForObjectMethod(introspectedTable
                 .getIbatis2SqlMapNamespace(), introspectedTable
                 .getCountByExampleStatementId(), "example")); //$NON-NLS-1$
@@ -56,7 +60,7 @@ public class CountByExampleMethodGenerator extends AbstractDAOElementGenerator {
         if (generateForJava5) {
             method.addBodyLine("return count;"); //$NON-NLS-1$
         } else {
-            method.addBodyLine("return count.intValue();"); //$NON-NLS-1$
+            method.addBodyLine("return count.longValue();"); //$NON-NLS-1$
         }
 
         if (context.getPlugins().clientCountByExampleMethodGenerated(method,
@@ -87,7 +91,7 @@ public class CountByExampleMethodGenerator extends AbstractDAOElementGenerator {
 
         Method method = new Method();
         method.setVisibility(getExampleMethodVisibility());
-        method.setReturnType(FullyQualifiedJavaType.getIntInstance());
+        method.setReturnType(new FullyQualifiedJavaType("long")); //$NON-NLS-1$
         method.setName(getDAOMethodNameCalculator()
                 .getCountByExampleMethodName(introspectedTable));
         method.addParameter(new Parameter(type, "example")); //$NON-NLS-1$

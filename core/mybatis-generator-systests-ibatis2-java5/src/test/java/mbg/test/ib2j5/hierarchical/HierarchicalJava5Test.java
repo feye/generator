@@ -30,13 +30,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.Test;
+
 import mbg.test.ib2j5.generated.hierarchical.dao.AwfulTableDAO;
 import mbg.test.ib2j5.generated.hierarchical.dao.FieldsblobsDAO;
+import mbg.test.ib2j5.generated.hierarchical.dao.FieldsonlyDAO;
 import mbg.test.ib2j5.generated.hierarchical.dao.PkblobsDAO;
 import mbg.test.ib2j5.generated.hierarchical.dao.PkfieldsDAO;
 import mbg.test.ib2j5.generated.hierarchical.dao.PkfieldsblobsDAO;
 import mbg.test.ib2j5.generated.hierarchical.dao.PkonlyDAO;
-import mbg.test.ib2j5.generated.hierarchical.dao.subpackage.FieldsonlyDAO;
 import mbg.test.ib2j5.generated.hierarchical.model.AwfulTable;
 import mbg.test.ib2j5.generated.hierarchical.model.AwfulTableExample;
 import mbg.test.ib2j5.generated.hierarchical.model.AwfulTableKey;
@@ -57,8 +59,6 @@ import mbg.test.ib2j5.generated.hierarchical.model.PkonlyExample;
 import mbg.test.ib2j5.generated.hierarchical.model.PkonlyKey;
 import mbg.test.ib2j5.generated.hierarchical.model.subpackage.Fieldsonly;
 import mbg.test.ib2j5.generated.hierarchical.model.subpackage.FieldsonlyExample;
-
-import org.junit.Test;
 
 /**
  * @author Jeff Butler
@@ -226,7 +226,7 @@ public class HierarchicalJava5Test extends AbstractHierarchicalJava5Test {
 
             FieldsonlyExample example = new FieldsonlyExample();
             example.createCriteria().andIntegerfieldGreaterThan(5);
-            int rows = dao.countByExample(example);
+            long rows = dao.countByExample(example);
             assertEquals(2, rows);
 
             example.clear();
@@ -404,7 +404,7 @@ public class HierarchicalJava5Test extends AbstractHierarchicalJava5Test {
 
             PkonlyExample example = new PkonlyExample();
             example.createCriteria().andIdGreaterThan(4);
-            int rows = dao.countByExample(example);
+            long rows = dao.countByExample(example);
             assertEquals(2, rows);
 
             example.clear();
@@ -1129,7 +1129,7 @@ public class HierarchicalJava5Test extends AbstractHierarchicalJava5Test {
 
             PkfieldsExample example = new PkfieldsExample();
             example.createCriteria().andLastnameLike("J%");
-            int rows = dao.countByExample(example);
+            long rows = dao.countByExample(example);
             assertEquals(1, rows);
 
             example.clear();
@@ -1431,7 +1431,7 @@ public class HierarchicalJava5Test extends AbstractHierarchicalJava5Test {
 
             PkblobsExample example = new PkblobsExample();
             example.createCriteria().andIdLessThan(4);
-            int rows = dao.countByExample(example);
+            long rows = dao.countByExample(example);
             assertEquals(1, rows);
 
             example.clear();
@@ -1831,7 +1831,7 @@ public class HierarchicalJava5Test extends AbstractHierarchicalJava5Test {
 
             PkfieldsblobsExample example = new PkfieldsblobsExample();
             example.createCriteria().andId1NotEqualTo(3);
-            int rows = dao.countByExample(example);
+            long rows = dao.countByExample(example);
             assertEquals(1, rows);
 
             example.clear();
@@ -2024,7 +2024,7 @@ public class HierarchicalJava5Test extends AbstractHierarchicalJava5Test {
 
             FieldsblobsExample example = new FieldsblobsExample();
             example.createCriteria().andFirstnameLike("S%");
-            int rows = dao.countByExample(example);
+            long rows = dao.countByExample(example);
             assertEquals(1, rows);
 
             example.clear();
@@ -3056,7 +3056,7 @@ public class HierarchicalJava5Test extends AbstractHierarchicalJava5Test {
 
             AwfulTableExample example = new AwfulTableExample();
             example.createCriteria().andEMailLike("fred@%");
-            int rows = dao.countByExample(example);
+            long rows = dao.countByExample(example);
             assertEquals(1, rows);
 
             example.clear();

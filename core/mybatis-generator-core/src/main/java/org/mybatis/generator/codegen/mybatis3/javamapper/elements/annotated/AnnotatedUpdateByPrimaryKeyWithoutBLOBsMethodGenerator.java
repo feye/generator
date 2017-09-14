@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2016 the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -26,26 +26,26 @@ import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.Interface;
 import org.mybatis.generator.api.dom.java.Method;
+import org.mybatis.generator.codegen.mybatis3.ListUtilities;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.UpdateByPrimaryKeyWithoutBLOBsMethodGenerator;
 
 /**
  * 
  * @author Jeff Butler
  */
-public class AnnotatedUpdateByPrimaryKeyWithoutBLOBsMethodGenerator extends
-    UpdateByPrimaryKeyWithoutBLOBsMethodGenerator {
+public class AnnotatedUpdateByPrimaryKeyWithoutBLOBsMethodGenerator
+        extends UpdateByPrimaryKeyWithoutBLOBsMethodGenerator {
 
     private boolean isSimple;
-    
+
     public AnnotatedUpdateByPrimaryKeyWithoutBLOBsMethodGenerator(boolean isSimple) {
         super();
         this.isSimple = isSimple;
     }
 
     @Override
-    public void addMapperAnnotations(Interface interfaze, Method method) {
-        interfaze.addImportedType(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Update")); //$NON-NLS-1$
-        
+    public void addMapperAnnotations(Method method) {
+
         method.addAnnotation("@Update({"); //$NON-NLS-1$
 
         StringBuilder sb = new StringBuilder();
@@ -62,10 +62,13 @@ public class AnnotatedUpdateByPrimaryKeyWithoutBLOBsMethodGenerator extends
 
         Iterator<IntrospectedColumn> iter;
         if (isSimple) {
-            iter = introspectedTable.getNonPrimaryKeyColumns().iterator();
+            iter = ListUtilities.removeGeneratedAlwaysColumns(introspectedTable.getNonPrimaryKeyColumns())
+                   .iterator();
         } else {
-            iter = introspectedTable.getBaseColumns().iterator();
+            iter = ListUtilities.removeGeneratedAlwaysColumns(introspectedTable.getBaseColumns())
+                   .iterator();
         }
+
         while (iter.hasNext()) {
             IntrospectedColumn introspectedColumn = iter.next();
 
@@ -91,7 +94,6 @@ public class AnnotatedUpdateByPrimaryKeyWithoutBLOBsMethodGenerator extends
         boolean and = false;
         iter = introspectedTable.getPrimaryKeyColumns().iterator();
         while (iter.hasNext()) {
-            IntrospectedColumn introspectedColumn = iter.next();
             sb.setLength(0);
             javaIndent(sb, 1);
             if (and) {
@@ -101,6 +103,7 @@ public class AnnotatedUpdateByPrimaryKeyWithoutBLOBsMethodGenerator extends
                 and = true;
             }
 
+            IntrospectedColumn introspectedColumn = iter.next();
             sb.append(escapeStringForJava(getEscapedColumnName(introspectedColumn)));
             sb.append(" = "); //$NON-NLS-1$
             sb.append(getParameterClause(introspectedColumn));
@@ -110,7 +113,12 @@ public class AnnotatedUpdateByPrimaryKeyWithoutBLOBsMethodGenerator extends
             }
             method.addAnnotation(sb.toString());
         }
-        
+
         method.addAnnotation("})"); //$NON-NLS-1$
+    }
+
+    @Override
+    public void addExtraImports(Interface interfaze) {
+        interfaze.addImportedType(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Update")); //$NON-NLS-1$
     }
 }

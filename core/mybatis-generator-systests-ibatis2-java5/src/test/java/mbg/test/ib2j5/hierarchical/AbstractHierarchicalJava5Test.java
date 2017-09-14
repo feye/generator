@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2016 the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -16,30 +16,31 @@
 package mbg.test.ib2j5.hierarchical;
 
 
-import mbg.test.ib2j5.AbstractTest;
-import mbg.test.ib2j5.generated.hierarchical.dao.AwfulTableDAO;
-import mbg.test.ib2j5.generated.hierarchical.dao.FieldsblobsDAO;
-import mbg.test.ib2j5.generated.hierarchical.dao.PkblobsDAO;
-import mbg.test.ib2j5.generated.hierarchical.dao.PkfieldsDAO;
-import mbg.test.ib2j5.generated.hierarchical.dao.PkfieldsblobsDAO;
-import mbg.test.ib2j5.generated.hierarchical.dao.PkonlyDAO;
-import mbg.test.ib2j5.generated.hierarchical.dao.subpackage.FieldsonlyDAO;
-
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
+import mbg.test.ib2j5.AbstractTest;
+import mbg.test.ib2j5.generated.hierarchical.dao.AwfulTableDAO;
+import mbg.test.ib2j5.generated.hierarchical.dao.FieldsblobsDAO;
+import mbg.test.ib2j5.generated.hierarchical.dao.FieldsonlyDAO;
+import mbg.test.ib2j5.generated.hierarchical.dao.PkblobsDAO;
+import mbg.test.ib2j5.generated.hierarchical.dao.PkfieldsDAO;
+import mbg.test.ib2j5.generated.hierarchical.dao.PkfieldsblobsDAO;
+import mbg.test.ib2j5.generated.hierarchical.dao.PkonlyDAO;
+
 public abstract class AbstractHierarchicalJava5Test extends AbstractTest {
     
     private GenericApplicationContext factory;
 
+    @Override
     public void setUp() throws Exception {
-    	super.setUp();
-		factory = new GenericApplicationContext();
+        super.setUp();
+        factory = new GenericApplicationContext();
         Resource res = new ClassPathResource("/mbg/test/ib2j5/hierarchical/SpringBeans.xml");
-		XmlBeanDefinitionReader r = new XmlBeanDefinitionReader(factory);
-		r.loadBeanDefinitions(res);
+        XmlBeanDefinitionReader r = new XmlBeanDefinitionReader(factory);
+        r.loadBeanDefinitions(res);
     }
 
     protected FieldsonlyDAO getFieldsonlyDAO() {

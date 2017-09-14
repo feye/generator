@@ -6,9 +6,9 @@
       </topic>
       <topic href="html/eclipseui/eclipseui.html" label="Using the Eclipse User Interface">
       </topic>
-      <topic href="html/eclipseui/usingAnt.html" label="Using the Ant Task">
+      <topic href="html/eclipseui/usingTheLauncher.html" label="Using the Launcher">
       </topic>
-      <topic href="html/eclipseui/releasenotes.html" label="Release Notes">
+      <topic href="html/eclipseui/usingAnt.html" label="Using the Ant Task">
       </topic>
       <topic href="html/eclipseui/buildingFromSource.html" label="Building from Source">
       </topic>

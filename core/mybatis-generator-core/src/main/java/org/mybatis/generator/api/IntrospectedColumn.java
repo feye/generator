@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2016 the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ public class IntrospectedColumn {
     protected int scale;
 
     protected boolean identity;
-    
+
     protected boolean isSequenceColumn;
 
     protected String javaProperty;
@@ -65,6 +65,21 @@ public class IntrospectedColumn {
     protected String remarks;
 
     protected String defaultValue;
+
+    /**
+     * true if the JDBC driver reports that this column is auto-increment.
+     */
+    protected boolean isAutoIncrement;
+
+    /**
+     * true if the JDBC driver reports that this column is generated.
+     */
+    protected boolean isGeneratedColumn;
+
+    /**
+     * True if there is a column override that defines this column as GENERATED ALWAYS.
+     */
+    protected boolean isGeneratedAlways;
 
     /**
      * Constructs a Column definition. This object holds all the information
@@ -300,5 +315,29 @@ public class IntrospectedColumn {
 
     public void setSequenceColumn(boolean isSequenceColumn) {
         this.isSequenceColumn = isSequenceColumn;
+    }
+
+    public boolean isAutoIncrement() {
+        return isAutoIncrement;
+    }
+
+    public void setAutoIncrement(boolean isAutoIncrement) {
+        this.isAutoIncrement = isAutoIncrement;
+    }
+
+    public boolean isGeneratedColumn() {
+        return isGeneratedColumn;
+    }
+
+    public void setGeneratedColumn(boolean isGeneratedColumn) {
+        this.isGeneratedColumn = isGeneratedColumn;
+    }
+
+    public boolean isGeneratedAlways() {
+        return isGeneratedAlways;
+    }
+
+    public void setGeneratedAlways(boolean isGeneratedAlways) {
+        this.isGeneratedAlways = isGeneratedAlways;
     }
 }

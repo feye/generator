@@ -24,13 +24,15 @@ import static org.junit.Assert.fail;
 
 import java.util.List;
 
+import org.junit.Test;
+
 import mbg.test.ib2j5.generated.hierarchical.dao.AwfulTableDAO;
 import mbg.test.ib2j5.generated.hierarchical.dao.FieldsblobsDAO;
+import mbg.test.ib2j5.generated.hierarchical.dao.FieldsonlyDAO;
 import mbg.test.ib2j5.generated.hierarchical.dao.PkblobsDAO;
 import mbg.test.ib2j5.generated.hierarchical.dao.PkfieldsDAO;
 import mbg.test.ib2j5.generated.hierarchical.dao.PkfieldsblobsDAO;
 import mbg.test.ib2j5.generated.hierarchical.dao.PkonlyDAO;
-import mbg.test.ib2j5.generated.hierarchical.dao.subpackage.FieldsonlyDAO;
 import mbg.test.ib2j5.generated.hierarchical.model.AwfulTable;
 import mbg.test.ib2j5.generated.hierarchical.model.AwfulTableExample;
 import mbg.test.ib2j5.generated.hierarchical.model.Fieldsblobs;
@@ -48,8 +50,6 @@ import mbg.test.ib2j5.generated.hierarchical.model.PkonlyExample;
 import mbg.test.ib2j5.generated.hierarchical.model.PkonlyKey;
 import mbg.test.ib2j5.generated.hierarchical.model.subpackage.Fieldsonly;
 import mbg.test.ib2j5.generated.hierarchical.model.subpackage.FieldsonlyExample;
-
-import org.junit.Test;
 
 /**
  * 
@@ -196,16 +196,16 @@ public class UpdateByExampleTest extends AbstractHierarchicalJava5Test {
                 .andIdEqualTo(5)
                 .andSeqNumEqualTo(3);
             
-            rows = dao.countByExample(example);
-            assertEquals(1, rows);
+            long returnedRows = dao.countByExample(example);
+            assertEquals(1, returnedRows);
             
             example.clear();
             example.createCriteria()
                 .andIdEqualTo(7)
                 .andSeqNumEqualTo(3);
             
-            rows = dao.countByExample(example);
-            assertEquals(1, rows);
+            returnedRows = dao.countByExample(example);
+            assertEquals(1, returnedRows);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -245,8 +245,8 @@ public class UpdateByExampleTest extends AbstractHierarchicalJava5Test {
                 .andIdEqualTo(22)
                 .andSeqNumEqualTo(3);
             
-            rows = dao.countByExample(example);
-            assertEquals(1, rows);
+            long returnedRows = dao.countByExample(example);
+            assertEquals(1, returnedRows);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -286,8 +286,8 @@ public class UpdateByExampleTest extends AbstractHierarchicalJava5Test {
                 .andId1EqualTo(3)
                 .andId2EqualTo(4);
     
-            rows = dao.countByExample(example);
-            assertEquals(1, rows);
+            long returnedRows = dao.countByExample(example);
+            assertEquals(1, returnedRows);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -332,8 +332,8 @@ public class UpdateByExampleTest extends AbstractHierarchicalJava5Test {
                 .andId1EqualTo(3)
                 .andId2EqualTo(4);
     
-            rows = dao.countByExample(example);
-            assertEquals(1, rows);
+            long returnedRows = dao.countByExample(example);
+            assertEquals(1, returnedRows);
         } catch (Exception e) {
             fail(e.getMessage());
         }

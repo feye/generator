@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2016 the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package org.mybatis.generator.internal;
 
 import static org.mybatis.generator.internal.util.StringUtility.isTrue;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 
@@ -38,28 +39,21 @@ import org.mybatis.generator.config.PropertyRegistry;
 import org.mybatis.generator.internal.util.StringUtility;
 
 /**
- * The Class DefaultCommentGenerator.
- *
  * @author Jeff Butler
  */
 public class DefaultCommentGenerator implements CommentGenerator {
 
-    /** The properties. */
     private Properties properties;
-    
-    /** The suppress date. */
+
     private boolean suppressDate;
-    
-    /** The suppress all comments. */
+
     private boolean suppressAllComments;
 
-    /** The addition of table remark's comments.
-     * If suppressAllComments is true, this option is ignored*/
+    /** If suppressAllComments is true, this option is ignored. */
     private boolean addRemarkComments;
 
-    /**
-     * Instantiates a new default comment generator.
-     */
+    private SimpleDateFormat dateFormat;
+
     public DefaultCommentGenerator() {
         super();
         properties = new Properties();
@@ -68,9 +62,7 @@ public class DefaultCommentGenerator implements CommentGenerator {
         addRemarkComments = false;
     }
 
-    /* (non-Javadoc)
-     * @see org.mybatis.generator.api.CommentGenerator#addJavaFileComment(org.mybatis.generator.api.dom.java.CompilationUnit)
-     */
+    @Override
     public void addJavaFileComment(CompilationUnit compilationUnit) {
         // add no file level comments by default
     }
@@ -81,6 +73,7 @@ public class DefaultCommentGenerator implements CommentGenerator {
      * @param xmlElement
      *            the xml element
      */
+    @Override
     public void addComment(XmlElement xmlElement) {
         if (suppressAllComments) {
             return;
@@ -108,16 +101,12 @@ public class DefaultCommentGenerator implements CommentGenerator {
         xmlElement.addElement(new TextElement("-->")); //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
-     * @see org.mybatis.generator.api.CommentGenerator#addRootComment(org.mybatis.generator.api.dom.xml.XmlElement)
-     */
+    @Override
     public void addRootComment(XmlElement rootElement) {
         // add no document level comments by default
     }
 
-    /* (non-Javadoc)
-     * @see org.mybatis.generator.api.CommentGenerator#addConfigurationProperties(java.util.Properties)
-     */
+    @Override
     public void addConfigurationProperties(Properties properties) {
         this.properties.putAll(properties);
 
@@ -129,6 +118,11 @@ public class DefaultCommentGenerator implements CommentGenerator {
 
         addRemarkComments = isTrue(properties
                 .getProperty(PropertyRegistry.COMMENT_GENERATOR_ADD_REMARK_COMMENTS));
+        
+        String dateFormatString = properties.getProperty(PropertyRegistry.COMMENT_GENERATOR_DATE_FORMAT);
+        if (StringUtility.stringHasValue(dateFormatString)) {
+            dateFormat = new SimpleDateFormat(dateFormatString);
+        }
     }
 
     /**
@@ -158,7 +152,7 @@ public class DefaultCommentGenerator implements CommentGenerator {
     }
 
     /**
-     * This method returns a formated date string to include in the Javadoc tag
+     * Returns a formated date string to include in the Javadoc tag
      * and XML comments. You may return null if you do not want the date in
      * these documentation elements.
      * 
@@ -167,20 +161,20 @@ public class DefaultCommentGenerator implements CommentGenerator {
     protected String getDateString() {
         if (suppressDate) {
             return null;
+        } else if (dateFormat != null) {
+            return dateFormat.format(new Date());
         } else {
             return new Date().toString();
         }
     }
 
-    /* (non-Javadoc)
-     * @see org.mybatis.generator.api.CommentGenerator#addClassComment(org.mybatis.generator.api.dom.java.InnerClass, org.mybatis.generator.api.IntrospectedTable)
-     */
+    @Override
     public void addClassComment(InnerClass innerClass,
             IntrospectedTable introspectedTable) {
         if (suppressAllComments) {
             return;
         }
-        
+
         StringBuilder sb = new StringBuilder();
 
         innerClass.addJavaDocLine("/**"); //$NON-NLS-1$
@@ -196,17 +190,34 @@ public class DefaultCommentGenerator implements CommentGenerator {
         innerClass.addJavaDocLine(" */"); //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
-     * @see org.mybatis.generator.api.CommentGenerator#addTopLevelClassComment(org.mybatis.generator.api.dom.java.TopLevelClass, org.mybatis.generator.api.IntrospectedTable)
-     */
+    @Override
+    public void addClassComment(InnerClass innerClass,
+            IntrospectedTable introspectedTable, boolean markAsDoNotDelete) {
+        if (suppressAllComments) {
+            return;
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        innerClass.addJavaDocLine("/**"); //$NON-NLS-1$
+        innerClass
+                .addJavaDocLine(" * This class was generated by MyBatis Generator."); //$NON-NLS-1$
+
+        sb.append(" * This class corresponds to the database table "); //$NON-NLS-1$
+        sb.append(introspectedTable.getFullyQualifiedTable());
+        innerClass.addJavaDocLine(sb.toString());
+
+        addJavadocTag(innerClass, markAsDoNotDelete);
+
+        innerClass.addJavaDocLine(" */"); //$NON-NLS-1$
+    }
+
     @Override
     public void addModelClassComment(TopLevelClass topLevelClass,
             IntrospectedTable introspectedTable) {
         if (suppressAllComments  || !addRemarkComments) {
             return;
         }
-
-        StringBuilder sb = new StringBuilder();
 
         topLevelClass.addJavaDocLine("/**"); //$NON-NLS-1$
 
@@ -223,6 +234,7 @@ public class DefaultCommentGenerator implements CommentGenerator {
         topLevelClass
                 .addJavaDocLine(" * This class was generated by MyBatis Generator."); //$NON-NLS-1$
 
+        StringBuilder sb = new StringBuilder();
         sb.append(" * This class corresponds to the database table "); //$NON-NLS-1$
         sb.append(introspectedTable.getFullyQualifiedTable());
         topLevelClass.addJavaDocLine(sb.toString());
@@ -232,9 +244,7 @@ public class DefaultCommentGenerator implements CommentGenerator {
         topLevelClass.addJavaDocLine(" */"); //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
-     * @see org.mybatis.generator.api.CommentGenerator#addEnumComment(org.mybatis.generator.api.dom.java.InnerEnum, org.mybatis.generator.api.IntrospectedTable)
-     */
+    @Override
     public void addEnumComment(InnerEnum innerEnum,
             IntrospectedTable introspectedTable) {
         if (suppressAllComments) {
@@ -256,9 +266,7 @@ public class DefaultCommentGenerator implements CommentGenerator {
         innerEnum.addJavaDocLine(" */"); //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
-     * @see org.mybatis.generator.api.CommentGenerator#addFieldComment(org.mybatis.generator.api.dom.java.Field, org.mybatis.generator.api.IntrospectedTable, org.mybatis.generator.api.IntrospectedColumn)
-     */
+    @Override
     public void addFieldComment(Field field,
             IntrospectedTable introspectedTable,
             IntrospectedColumn introspectedColumn) {
@@ -293,9 +301,7 @@ public class DefaultCommentGenerator implements CommentGenerator {
         field.addJavaDocLine(" */"); //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
-     * @see org.mybatis.generator.api.CommentGenerator#addFieldComment(org.mybatis.generator.api.dom.java.Field, org.mybatis.generator.api.IntrospectedTable)
-     */
+    @Override
     public void addFieldComment(Field field, IntrospectedTable introspectedTable) {
         if (suppressAllComments) {
             return;
@@ -316,9 +322,7 @@ public class DefaultCommentGenerator implements CommentGenerator {
         field.addJavaDocLine(" */"); //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
-     * @see org.mybatis.generator.api.CommentGenerator#addGeneralMethodComment(org.mybatis.generator.api.dom.java.Method, org.mybatis.generator.api.IntrospectedTable)
-     */
+    @Override
     public void addGeneralMethodComment(Method method,
             IntrospectedTable introspectedTable) {
         if (suppressAllComments) {
@@ -340,9 +344,7 @@ public class DefaultCommentGenerator implements CommentGenerator {
         method.addJavaDocLine(" */"); //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
-     * @see org.mybatis.generator.api.CommentGenerator#addGetterComment(org.mybatis.generator.api.dom.java.Method, org.mybatis.generator.api.IntrospectedTable, org.mybatis.generator.api.IntrospectedColumn)
-     */
+    @Override
     public void addGetterComment(Method method,
             IntrospectedTable introspectedTable,
             IntrospectedColumn introspectedColumn) {
@@ -376,9 +378,7 @@ public class DefaultCommentGenerator implements CommentGenerator {
         method.addJavaDocLine(" */"); //$NON-NLS-1$
     }
 
-    /* (non-Javadoc)
-     * @see org.mybatis.generator.api.CommentGenerator#addSetterComment(org.mybatis.generator.api.dom.java.Method, org.mybatis.generator.api.IntrospectedTable, org.mybatis.generator.api.IntrospectedColumn)
-     */
+    @Override
     public void addSetterComment(Method method,
             IntrospectedTable introspectedTable,
             IntrospectedColumn introspectedColumn) {
@@ -413,29 +413,5 @@ public class DefaultCommentGenerator implements CommentGenerator {
         addJavadocTag(method, false);
 
         method.addJavaDocLine(" */"); //$NON-NLS-1$
-    }
-
-    /* (non-Javadoc)
-     * @see org.mybatis.generator.api.CommentGenerator#addClassComment(org.mybatis.generator.api.dom.java.InnerClass, org.mybatis.generator.api.IntrospectedTable, boolean)
-     */
-    public void addClassComment(InnerClass innerClass,
-            IntrospectedTable introspectedTable, boolean markAsDoNotDelete) {
-        if (suppressAllComments) {
-            return;
-        }
-
-        StringBuilder sb = new StringBuilder();
-
-        innerClass.addJavaDocLine("/**"); //$NON-NLS-1$
-        innerClass
-                .addJavaDocLine(" * This class was generated by MyBatis Generator."); //$NON-NLS-1$
-
-        sb.append(" * This class corresponds to the database table "); //$NON-NLS-1$
-        sb.append(introspectedTable.getFullyQualifiedTable());
-        innerClass.addJavaDocLine(sb.toString());
-
-        addJavadocTag(innerClass, markAsDoNotDelete);
-
-        innerClass.addJavaDocLine(" */"); //$NON-NLS-1$
     }
 }

@@ -1,17 +1,17 @@
-/*
- *  Copyright 2005 The Apache Software Foundation
+/**
+ *    Copyright 2006-2016 the original author or authors.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
  */
 package org.mybatis.generator.eclipse.ui.wizards;
 
@@ -63,6 +63,7 @@ public class NewConfigFileWizardPage1 extends WizardPage {
         this.selection = selection;
     }
 
+    @Override
     public void createControl(Composite parent) {
         Composite container = new Composite(parent, SWT.NULL);
         GridLayout layout = new GridLayout();
@@ -76,6 +77,7 @@ public class NewConfigFileWizardPage1 extends WizardPage {
         GridData gd = new GridData(GridData.FILL_HORIZONTAL);
         locationText.setLayoutData(gd);
         locationText.addModifyListener(new ModifyListener() {
+            @Override
             public void modifyText(ModifyEvent e) {
                 dialogChanged();
             }
@@ -84,6 +86,7 @@ public class NewConfigFileWizardPage1 extends WizardPage {
         Button button = new Button(container, SWT.PUSH);
         button.setText("Browse...");
         button.addSelectionListener(new SelectionAdapter() {
+            @Override
             public void widgetSelected(SelectionEvent e) {
                 handleBrowse();
             }
@@ -95,6 +98,7 @@ public class NewConfigFileWizardPage1 extends WizardPage {
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fileText.setLayoutData(gd);
         fileText.addModifyListener(new ModifyListener() {
+            @Override
             public void modifyText(ModifyEvent e) {
                 dialogChanged();
             }
@@ -135,7 +139,7 @@ public class NewConfigFileWizardPage1 extends WizardPage {
                 locationText.setText(container.getFullPath().toString());
             }
         }
-        fileText.setText("generatorConfig.xml");
+        fileText.setText("generatorConfig.xml"); //$NON-NLS-1$
     }
 
     /**
