@@ -15,6 +15,8 @@
  */
 package org.mybatis.generator.eclipse.core.tests.merge.support;
 
+import org.mybatis.generator.api.MyBatisGenerator;
+import org.mybatis.generator.api.dom.DefaultJavaFormatter;
 import org.mybatis.generator.api.dom.java.Field;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.Interface;
@@ -50,7 +52,7 @@ public class TestResourceGenerator {
         commentGenerator.addMethodComment(method);
         tlc.addMethod(method);
 
-        return tlc.getFormattedContent();
+        return new DefaultJavaFormatter().getFormattedContent(tlc);
     }
 
     public static String simpleClassWithGeneratedAndCustomItems() {
@@ -95,7 +97,7 @@ public class TestResourceGenerator {
         method.setVisibility(JavaVisibility.PUBLIC);
         tlc.addMethod(method);
 
-        return tlc.getFormattedContent();
+        return new DefaultJavaFormatter().getFormattedContent(tlc);
     }
 
     public static String simpleInterfaceWithAllGeneratedItems() {
@@ -114,7 +116,7 @@ public class TestResourceGenerator {
         commentGenerator.addMethodComment(method);
         itf.addMethod(method);
 
-        return itf.getFormattedContent();
+        return new DefaultJavaFormatter().getFormattedContent(itf);
     }
 
     public static String simpleInterfaceWithGeneratedAndCustomItems() {
@@ -128,10 +130,38 @@ public class TestResourceGenerator {
         commentGenerator.addMethodComment(method);
         itf.addMethod(method);
 
+        method = new Method("divide");
+        method.addParameter(new Parameter(FullyQualifiedJavaType.getIntInstance(), "a"));
+        method.addParameter(new Parameter(FullyQualifiedJavaType.getIntInstance(), "b"));
+        method.setReturnType(FullyQualifiedJavaType.getIntInstance());
+        method.addAnnotation("@Generated(value=\"" + MyBatisGenerator.class.getName() + "\")");
+        itf.addMethod(method);
+
+        method = new Method("multiply");
+        method.addParameter(new Parameter(FullyQualifiedJavaType.getIntInstance(), "a"));
+        method.addParameter(new Parameter(FullyQualifiedJavaType.getIntInstance(), "b"));
+        method.setReturnType(FullyQualifiedJavaType.getIntInstance());
+        method.addAnnotation("@Generated(\"" + MyBatisGenerator.class.getName() + "\")");
+        itf.addMethod(method);
+
+        method = new Method("add");
+        method.addParameter(new Parameter(FullyQualifiedJavaType.getIntInstance(), "a"));
+        method.addParameter(new Parameter(FullyQualifiedJavaType.getIntInstance(), "b"));
+        method.setReturnType(FullyQualifiedJavaType.getIntInstance());
+        method.addAnnotation("@javax.annotation.Generated(\"" + MyBatisGenerator.class.getName() + "\")");
+        itf.addMethod(method);
+
+        method = new Method("add2");
+        method.addParameter(new Parameter(FullyQualifiedJavaType.getIntInstance(), "a"));
+        method.addParameter(new Parameter(FullyQualifiedJavaType.getIntInstance(), "b"));
+        method.setReturnType(FullyQualifiedJavaType.getIntInstance());
+        method.addAnnotation("@javax.annotation.Generated(value=\"" + MyBatisGenerator.class.getName() + "\")");
+        itf.addMethod(method);
+
         method = new Method("nonGeneratedMethod");
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         itf.addMethod(method);
 
-        return itf.getFormattedContent();
+        return new DefaultJavaFormatter().getFormattedContent(itf);
     }
 }

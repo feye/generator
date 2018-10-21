@@ -8,13 +8,6 @@
       <topic href="html/javadoc/org/mybatis/generator/api/dom/java/package-summary.html" label="org.mybatis.generator.api.dom.java" />
       <topic href="html/javadoc/org/mybatis/generator/api/dom/xml/package-summary.html" label="org.mybatis.generator.api.dom.xml" />
       <topic href="html/javadoc/org/mybatis/generator/codegen/package-summary.html" label="org.mybatis.generator.codegen" />
-      <topic href="html/javadoc/org/mybatis/generator/codegen/ibatis2/package-summary.html" label="org.mybatis.generator.codegen.ibatis2" />
-      <topic href="html/javadoc/org/mybatis/generator/codegen/ibatis2/dao/package-summary.html" label="org.mybatis.generator.codegen.ibatis2.dao" />
-      <topic href="html/javadoc/org/mybatis/generator/codegen/ibatis2/dao/elements/package-summary.html" label="org.mybatis.generator.codegen.ibatis2.dao.elements" />
-      <topic href="html/javadoc/org/mybatis/generator/codegen/ibatis2/dao/templates/package-summary.html" label="org.mybatis.generator.codegen.ibatis2.dao.templates" />
-      <topic href="html/javadoc/org/mybatis/generator/codegen/ibatis2/model/package-summary.html" label="org.mybatis.generator.codegen.ibatis2.model" />
-      <topic href="html/javadoc/org/mybatis/generator/codegen/ibatis2/sqlmap/package-summary.html" label="org.mybatis.generator.codegen.ibatis2.sqlmap" />
-      <topic href="html/javadoc/org/mybatis/generator/codegen/ibatis2/sqlmap/elements/package-summary.html" label="org.mybatis.generator.codegen.ibatis2.sqlmap.elements" />
       <topic href="html/javadoc/org/mybatis/generator/codegen/mybatis3/package-summary.html" label="org.mybatis.generator.codegen.mybatis3" />
       <topic href="html/javadoc/org/mybatis/generator/codegen/mybatis3/javamapper/package-summary.html" label="org.mybatis.generator.codegen.mybatis3.javamapper" />
       <topic href="html/javadoc/org/mybatis/generator/codegen/mybatis3/javamapper/elements/package-summary.html" label="org.mybatis.generator.codegen.mybatis3.javamapper.elements" />
@@ -40,6 +33,8 @@
       <topic href="html/javadoc/org/mybatis/generator/logging/nologging/package-summary.html" label="org.mybatis.generator.logging.nologging" />
       <topic href="html/javadoc/org/mybatis/generator/logging/slf4j/package-summary.html" label="org.mybatis.generator.logging.slf4j" />
       <topic href="html/javadoc/org/mybatis/generator/plugins/package-summary.html" label="org.mybatis.generator.plugins" />
+      <topic href="html/javadoc/org/mybatis/generator/runtime/dynamic/sql/package-summary.html" label="org.mybatis.generator.runtime.dynamic.sql" />
+      <topic href="html/javadoc/org/mybatis/generator/runtime/dynamic/sql/elements/package-summary.html" label="org.mybatis.generator.runtime.dynamic.sql.elements" />
    </topic>
    
    <topic label="MyBatis Generator Eclipse Plugin Javadoc">

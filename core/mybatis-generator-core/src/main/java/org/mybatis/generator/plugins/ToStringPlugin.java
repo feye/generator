@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2017 the original author or authors.
+ *    Copyright 2006-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.mybatis.generator.api.IntrospectedTable;
+import org.mybatis.generator.api.IntrospectedTable.TargetRuntime;
 import org.mybatis.generator.api.PluginAdapter;
 import org.mybatis.generator.api.dom.java.Field;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
@@ -35,7 +36,7 @@ public class ToStringPlugin extends PluginAdapter {
     @Override
     public void setProperties(Properties properties) {
         super.setProperties(properties);
-        useToStringFromRoot = isTrue(properties.getProperty("useToStringFromRoot"));
+        useToStringFromRoot = isTrue(properties.getProperty("useToStringFromRoot")); //$NON-NLS-1$
     }
 
     @Override
@@ -66,16 +67,18 @@ public class ToStringPlugin extends PluginAdapter {
 
     private void generateToString(IntrospectedTable introspectedTable,
             TopLevelClass topLevelClass) {
-        Method method = new Method();
+        Method method = new Method("toString"); //$NON-NLS-1$
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setReturnType(FullyQualifiedJavaType.getStringInstance());
-        method.setName("toString"); //$NON-NLS-1$
-        if (introspectedTable.isJava5Targeted()) {
-            method.addAnnotation("@Override"); //$NON-NLS-1$
-        }
+        method.addAnnotation("@Override"); //$NON-NLS-1$
 
-        context.getCommentGenerator().addGeneralMethodComment(method,
-                introspectedTable);
+        if (introspectedTable.getTargetRuntime() == TargetRuntime.MYBATIS3_DSQL) {
+            context.getCommentGenerator().addGeneralMethodAnnotation(method,
+                    introspectedTable, topLevelClass.getImportedTypes());
+        } else {
+            context.getCommentGenerator().addGeneralMethodComment(method,
+                    introspectedTable);
+        }
 
         method.addBodyLine("StringBuilder sb = new StringBuilder();"); //$NON-NLS-1$
         method.addBodyLine("sb.append(getClass().getSimpleName());"); //$NON-NLS-1$

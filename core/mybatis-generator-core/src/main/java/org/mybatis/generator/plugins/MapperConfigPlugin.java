@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2017 the original author or authors.
+ *    Copyright 2006-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
 import static org.mybatis.generator.internal.util.messages.Messages.getString;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -39,11 +40,11 @@ import org.mybatis.generator.codegen.XmlConstants;
  * <p>This plugin accepts three properties:
  * 
  * <ul>
- * <li><tt>fileName</tt> (optional) the name of the generated file. this
+ * <li><code>fileName</code> (optional) the name of the generated file. this
  * defaults to "SqlMapConfig.xml" if not specified.</li>
- * <li><tt>targetPackage</tt> (required) the name of the package where the file
+ * <li><code>targetPackage</code> (required) the name of the package where the file
  * should be placed. Specified like "com.mycompany.sql".</li>
- * <li><tt>targetProject</tt> (required) the name of the project where the file
+ * <li><code>targetProject</code> (required) the name of the project where the file
  * should be placed.</li>
  * </ul>
  * 
@@ -56,11 +57,7 @@ import org.mybatis.generator.codegen.XmlConstants;
  */
 public class MapperConfigPlugin extends PluginAdapter {
 
-    private List<String> mapperFiles;
-
-    public MapperConfigPlugin() {
-        mapperFiles = new ArrayList<String>();
-    }
+    private List<String> mapperFiles = new ArrayList<>();
 
     @Override
     public boolean validate(List<String> warnings) {
@@ -91,6 +88,10 @@ public class MapperConfigPlugin extends PluginAdapter {
                 XmlConstants.MYBATIS3_MAPPER_CONFIG_PUBLIC_ID,
                 XmlConstants.MYBATIS3_MAPPER_CONFIG_SYSTEM_ID);
 
+        if (mapperFiles.isEmpty()) {
+            return Collections.emptyList();
+        }
+        
         XmlElement root = new XmlElement("configuration"); //$NON-NLS-1$
         document.setRootElement(root);
 
@@ -126,7 +127,7 @@ public class MapperConfigPlugin extends PluginAdapter {
                 properties.getProperty("targetProject"), //$NON-NLS-1$
                 false, context.getXmlFormatter());
 
-        List<GeneratedXmlFile> answer = new ArrayList<GeneratedXmlFile>(1);
+        List<GeneratedXmlFile> answer = new ArrayList<>(1);
         answer.add(gxf);
 
         return answer;

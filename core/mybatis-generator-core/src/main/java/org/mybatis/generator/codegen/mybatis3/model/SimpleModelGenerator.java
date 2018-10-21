@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2017 the original author or authors.
+ *    Copyright 2006-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -44,8 +44,8 @@ import org.mybatis.generator.codegen.RootClassInfo;
  */
 public class SimpleModelGenerator extends AbstractJavaGenerator {
 
-    public SimpleModelGenerator() {
-        super();
+    public SimpleModelGenerator(String project) {
+        super(project);
     }
 
     @Override
@@ -111,7 +111,7 @@ public class SimpleModelGenerator extends AbstractJavaGenerator {
             }
         }
 
-        List<CompilationUnit> answer = new ArrayList<CompilationUnit>();
+        List<CompilationUnit> answer = new ArrayList<>();
         if (context.getPlugins().modelBaseRecordClassGenerated(topLevelClass,
                 introspectedTable)) {
             answer.add(topLevelClass);
@@ -132,10 +132,9 @@ public class SimpleModelGenerator extends AbstractJavaGenerator {
     }
 
     private void addParameterizedConstructor(TopLevelClass topLevelClass) {
-        Method method = new Method();
+        Method method = new Method(topLevelClass.getType().getShortName());
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setConstructor(true);
-        method.setName(topLevelClass.getType().getShortName());
         context.getCommentGenerator().addGeneralMethodComment(method,
                 introspectedTable);
 
@@ -149,24 +148,7 @@ public class SimpleModelGenerator extends AbstractJavaGenerator {
         }
 
         StringBuilder sb = new StringBuilder();
-        if (introspectedTable.getRules().generatePrimaryKeyClass()) {
-            boolean comma = false;
-            sb.append("super("); //$NON-NLS-1$
-            for (IntrospectedColumn introspectedColumn : introspectedTable
-                    .getPrimaryKeyColumns()) {
-                if (comma) {
-                    sb.append(", "); //$NON-NLS-1$
-                } else {
-                    comma = true;
-                }
-                sb.append(introspectedColumn.getJavaProperty());
-            }
-            sb.append(");"); //$NON-NLS-1$
-            method.addBodyLine(sb.toString());
-        }
-
         List<IntrospectedColumn> introspectedColumns = introspectedTable.getAllColumns();
-
         for (IntrospectedColumn introspectedColumn : introspectedColumns) {
             sb.setLength(0);
             sb.append("this."); //$NON-NLS-1$

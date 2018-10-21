@@ -30,6 +30,12 @@
 /core/mybatis-generator-systests-mybatis3/.settings
 /core/mybatis-generator-systests-mybatis3/target
 
+# /core/mybatis-generator-systests-mybatis3-java8/
+/core/mybatis-generator-systests-mybatis3-java8/.classpath
+/core/mybatis-generator-systests-mybatis3-java8/.project
+/core/mybatis-generator-systests-mybatis3-java8/.settings
+/core/mybatis-generator-systests-mybatis3-java8/target
+
 # /core/mybatis-generator-systests-ibatis2-java2/
 /core/mybatis-generator-systests-ibatis2-java2/.classpath
 /core/mybatis-generator-systests-ibatis2-java2/.project
@@ -50,3 +56,27 @@
 /.project
 .idea
 *.iml
+/core/.mvn/wrapper/maven-wrapper.jar
+**/.DS_Store
+
+ *.ipr
+*.iws
+*.iml
+.gradle/*
+.classpath
+build/*
+classes/*
+out
+.gradle*
+.idea
+.idea/*
+.idea*
+.classpath
+.project
+.settings/
+*.log
+*.log.*
+*.bak
+bin/
+data/*
+*workspace.xml

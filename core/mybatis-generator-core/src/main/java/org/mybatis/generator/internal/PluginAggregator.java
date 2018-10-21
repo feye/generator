@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2017 the original author or authors.
+ *    Copyright 2006-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ public final class PluginAggregator implements Plugin {
     private List<Plugin> plugins;
 
     public PluginAggregator() {
-        plugins = new ArrayList<Plugin>();
+        plugins = new ArrayList<>();
     }
 
     public void addPlugin(Plugin plugin) {
@@ -165,7 +165,7 @@ public final class PluginAggregator implements Plugin {
     @Override
     public List<GeneratedJavaFile> contextGenerateAdditionalJavaFiles(
             IntrospectedTable introspectedTable) {
-        List<GeneratedJavaFile> answer = new ArrayList<GeneratedJavaFile>();
+        List<GeneratedJavaFile> answer = new ArrayList<>();
         for (Plugin plugin : plugins) {
             List<GeneratedJavaFile> temp = plugin
                     .contextGenerateAdditionalJavaFiles(introspectedTable);
@@ -178,7 +178,7 @@ public final class PluginAggregator implements Plugin {
 
     @Override
     public List<GeneratedJavaFile> contextGenerateAdditionalJavaFiles() {
-        List<GeneratedJavaFile> answer = new ArrayList<GeneratedJavaFile>();
+        List<GeneratedJavaFile> answer = new ArrayList<>();
         for (Plugin plugin : plugins) {
             List<GeneratedJavaFile> temp = plugin
                     .contextGenerateAdditionalJavaFiles();
@@ -192,7 +192,7 @@ public final class PluginAggregator implements Plugin {
     @Override
     public List<GeneratedXmlFile> contextGenerateAdditionalXmlFiles(
             IntrospectedTable introspectedTable) {
-        List<GeneratedXmlFile> answer = new ArrayList<GeneratedXmlFile>();
+        List<GeneratedXmlFile> answer = new ArrayList<>();
         for (Plugin plugin : plugins) {
             List<GeneratedXmlFile> temp = plugin
                     .contextGenerateAdditionalXmlFiles(introspectedTable);
@@ -205,7 +205,7 @@ public final class PluginAggregator implements Plugin {
 
     @Override
     public List<GeneratedXmlFile> contextGenerateAdditionalXmlFiles() {
-        List<GeneratedXmlFile> answer = new ArrayList<GeneratedXmlFile>();
+        List<GeneratedXmlFile> answer = new ArrayList<>();
         for (Plugin plugin : plugins) {
             List<GeneratedXmlFile> temp = plugin
                     .contextGenerateAdditionalXmlFiles();
@@ -455,13 +455,87 @@ public final class PluginAggregator implements Plugin {
     }
 
     @Override
-    public boolean clientCountByExampleMethodGenerated(Method method,
-            Interface interfaze, IntrospectedTable introspectedTable) {
+    public boolean clientBasicCountMethodGenerated(Method method, Interface interfaze,
+            IntrospectedTable introspectedTable) {
         boolean rc = true;
 
         for (Plugin plugin : plugins) {
-            if (!plugin.clientCountByExampleMethodGenerated(method, interfaze,
-                    introspectedTable)) {
+            if (!plugin.clientBasicCountMethodGenerated(method, interfaze, introspectedTable)) {
+                rc = false;
+                break;
+            }
+        }
+
+        return rc;
+    }
+
+    @Override
+    public boolean clientBasicDeleteMethodGenerated(Method method, Interface interfaze,
+            IntrospectedTable introspectedTable) {
+        boolean rc = true;
+
+        for (Plugin plugin : plugins) {
+            if (!plugin.clientBasicDeleteMethodGenerated(method, interfaze, introspectedTable)) {
+                rc = false;
+                break;
+            }
+        }
+
+        return rc;
+    }
+
+    @Override
+    public boolean clientBasicInsertMethodGenerated(Method method, Interface interfaze,
+            IntrospectedTable introspectedTable) {
+        boolean rc = true;
+
+        for (Plugin plugin : plugins) {
+            if (!plugin.clientBasicInsertMethodGenerated(method, interfaze, introspectedTable)) {
+                rc = false;
+                break;
+            }
+        }
+
+        return rc;
+    }
+
+    @Override
+    public boolean clientBasicSelectManyMethodGenerated(Method method, Interface interfaze,
+            IntrospectedTable introspectedTable) {
+        boolean rc = true;
+
+        for (Plugin plugin : plugins) {
+            if (!plugin.clientBasicSelectManyMethodGenerated(method, interfaze, introspectedTable)) {
+                rc = false;
+                break;
+            }
+        }
+
+        return rc;
+    }
+
+    @Override
+    public boolean clientBasicSelectOneMethodGenerated(Method method, Interface interfaze,
+            IntrospectedTable introspectedTable) {
+        boolean rc = true;
+
+        for (Plugin plugin : plugins) {
+            if (!plugin.clientBasicSelectOneMethodGenerated(method, interfaze, introspectedTable)) {
+                rc = false;
+                break;
+            }
+        }
+
+        return rc;
+    }
+
+    @Override
+    public boolean clientBasicUpdateMethodGenerated(Method method, Interface interfaze,
+            IntrospectedTable introspectedTable) {
+        boolean rc = true;
+
+        for (Plugin plugin : plugins) {
+            if (!plugin.clientBasicUpdateMethodGenerated(method, interfaze, introspectedTable)) {
                 rc = false;
                 break;
             }
@@ -472,11 +546,11 @@ public final class PluginAggregator implements Plugin {
 
     @Override
     public boolean clientCountByExampleMethodGenerated(Method method,
-            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+            Interface interfaze, IntrospectedTable introspectedTable) {
         boolean rc = true;
 
         for (Plugin plugin : plugins) {
-            if (!plugin.clientCountByExampleMethodGenerated(method, topLevelClass,
+            if (!plugin.clientCountByExampleMethodGenerated(method, interfaze,
                     introspectedTable)) {
                 rc = false;
                 break;
@@ -503,22 +577,6 @@ public final class PluginAggregator implements Plugin {
     }
 
     @Override
-    public boolean clientDeleteByExampleMethodGenerated(Method method,
-            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (Plugin plugin : plugins) {
-            if (!plugin.clientDeleteByExampleMethodGenerated(method,
-                    topLevelClass, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    @Override
     public boolean clientDeleteByPrimaryKeyMethodGenerated(Method method,
             Interface interfaze, IntrospectedTable introspectedTable) {
         boolean rc = true;
@@ -526,22 +584,6 @@ public final class PluginAggregator implements Plugin {
         for (Plugin plugin : plugins) {
             if (!plugin.clientDeleteByPrimaryKeyMethodGenerated(method, interfaze,
                     introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    @Override
-    public boolean clientDeleteByPrimaryKeyMethodGenerated(Method method,
-            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (Plugin plugin : plugins) {
-            if (!plugin.clientDeleteByPrimaryKeyMethodGenerated(method,
-                    topLevelClass, introspectedTable)) {
                 rc = false;
                 break;
             }
@@ -567,45 +609,12 @@ public final class PluginAggregator implements Plugin {
     }
 
     @Override
-    public boolean clientInsertMethodGenerated(Method method,
-            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (Plugin plugin : plugins) {
-            if (!plugin.clientInsertMethodGenerated(method, topLevelClass,
-                    introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    @Override
     public boolean clientGenerated(Interface interfaze,
-            TopLevelClass topLevelClass,
             IntrospectedTable introspectedTable) {
         boolean rc = true;
 
         for (Plugin plugin : plugins) {
-            if (!plugin.clientGenerated(interfaze, topLevelClass, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    @Override
-    public boolean clientSelectAllMethodGenerated(Method method,
-            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (Plugin plugin : plugins) {
-            if (!plugin.clientSelectAllMethodGenerated(method,
-                    topLevelClass, introspectedTable)) {
+            if (!plugin.clientGenerated(interfaze, introspectedTable)) {
                 rc = false;
                 break;
             }
@@ -647,22 +656,6 @@ public final class PluginAggregator implements Plugin {
     }
 
     @Override
-    public boolean clientSelectByExampleWithBLOBsMethodGenerated(Method method,
-            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (Plugin plugin : plugins) {
-            if (!plugin.clientSelectByExampleWithBLOBsMethodGenerated(method,
-                    topLevelClass, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    @Override
     public boolean clientSelectByExampleWithoutBLOBsMethodGenerated(Method method,
             Interface interfaze, IntrospectedTable introspectedTable) {
         boolean rc = true;
@@ -670,22 +663,6 @@ public final class PluginAggregator implements Plugin {
         for (Plugin plugin : plugins) {
             if (!plugin.clientSelectByExampleWithoutBLOBsMethodGenerated(method,
                     interfaze, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    @Override
-    public boolean clientSelectByExampleWithoutBLOBsMethodGenerated(Method method,
-            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (Plugin plugin : plugins) {
-            if (!plugin.clientSelectByExampleWithoutBLOBsMethodGenerated(method,
-                    topLevelClass, introspectedTable)) {
                 rc = false;
                 break;
             }
@@ -711,22 +688,6 @@ public final class PluginAggregator implements Plugin {
     }
 
     @Override
-    public boolean clientSelectByPrimaryKeyMethodGenerated(Method method,
-            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (Plugin plugin : plugins) {
-            if (!plugin.clientSelectByPrimaryKeyMethodGenerated(method,
-                    topLevelClass, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    @Override
     public boolean clientUpdateByExampleSelectiveMethodGenerated(Method method,
             Interface interfaze, IntrospectedTable introspectedTable) {
         boolean rc = true;
@@ -734,22 +695,6 @@ public final class PluginAggregator implements Plugin {
         for (Plugin plugin : plugins) {
             if (!plugin.clientUpdateByExampleSelectiveMethodGenerated(method,
                     interfaze, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    @Override
-    public boolean clientUpdateByExampleSelectiveMethodGenerated(Method method,
-            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (Plugin plugin : plugins) {
-            if (!plugin.clientUpdateByExampleSelectiveMethodGenerated(method,
-                    topLevelClass, introspectedTable)) {
                 rc = false;
                 break;
             }
@@ -775,22 +720,6 @@ public final class PluginAggregator implements Plugin {
     }
 
     @Override
-    public boolean clientUpdateByExampleWithBLOBsMethodGenerated(Method method,
-            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (Plugin plugin : plugins) {
-            if (!plugin.clientUpdateByExampleWithBLOBsMethodGenerated(method,
-                    topLevelClass, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    @Override
     public boolean clientUpdateByExampleWithoutBLOBsMethodGenerated(Method method,
             Interface interfaze, IntrospectedTable introspectedTable) {
         boolean rc = true;
@@ -798,22 +727,6 @@ public final class PluginAggregator implements Plugin {
         for (Plugin plugin : plugins) {
             if (!plugin.clientUpdateByExampleWithoutBLOBsMethodGenerated(method,
                     interfaze, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    @Override
-    public boolean clientUpdateByExampleWithoutBLOBsMethodGenerated(Method method,
-            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (Plugin plugin : plugins) {
-            if (!plugin.clientUpdateByExampleWithoutBLOBsMethodGenerated(method,
-                    topLevelClass, introspectedTable)) {
                 rc = false;
                 break;
             }
@@ -839,22 +752,6 @@ public final class PluginAggregator implements Plugin {
     }
 
     @Override
-    public boolean clientUpdateByPrimaryKeySelectiveMethodGenerated(Method method,
-            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (Plugin plugin : plugins) {
-            if (!plugin.clientUpdateByPrimaryKeySelectiveMethodGenerated(method,
-                    topLevelClass, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    @Override
     public boolean clientUpdateByPrimaryKeyWithBLOBsMethodGenerated(Method method,
             Interface interfaze, IntrospectedTable introspectedTable) {
         boolean rc = true;
@@ -862,22 +759,6 @@ public final class PluginAggregator implements Plugin {
         for (Plugin plugin : plugins) {
             if (!plugin.clientUpdateByPrimaryKeyWithBLOBsMethodGenerated(method,
                     interfaze, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    @Override
-    public boolean clientUpdateByPrimaryKeyWithBLOBsMethodGenerated(Method method,
-            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (Plugin plugin : plugins) {
-            if (!plugin.clientUpdateByPrimaryKeyWithBLOBsMethodGenerated(method,
-                    topLevelClass, introspectedTable)) {
                 rc = false;
                 break;
             }
@@ -895,23 +776,6 @@ public final class PluginAggregator implements Plugin {
         for (Plugin plugin : plugins) {
             if (!plugin.clientUpdateByPrimaryKeyWithoutBLOBsMethodGenerated(
                     method, interfaze, introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    @Override
-    public boolean clientUpdateByPrimaryKeyWithoutBLOBsMethodGenerated(
-            Method method, TopLevelClass topLevelClass,
-            IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (Plugin plugin : plugins) {
-            if (!plugin.clientUpdateByPrimaryKeyWithoutBLOBsMethodGenerated(
-                    method, topLevelClass, introspectedTable)) {
                 rc = false;
                 break;
             }
@@ -1013,22 +877,6 @@ public final class PluginAggregator implements Plugin {
         for (Plugin plugin : plugins) {
             if (!plugin.clientInsertSelectiveMethodGenerated(method, interfaze,
                     introspectedTable)) {
-                rc = false;
-                break;
-            }
-        }
-
-        return rc;
-    }
-
-    @Override
-    public boolean clientInsertSelectiveMethodGenerated(Method method,
-            TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        boolean rc = true;
-
-        for (Plugin plugin : plugins) {
-            if (!plugin.clientInsertSelectiveMethodGenerated(method,
-                    topLevelClass, introspectedTable)) {
                 rc = false;
                 break;
             }
